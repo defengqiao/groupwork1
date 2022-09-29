@@ -2,7 +2,7 @@
 
 
 #1.
-
+rm(list = ls())
 
 #2.
 
@@ -20,29 +20,29 @@ split_punct <- function(a){
   for (i in c(",",".",";","!",":","?")) {
     
     if (i=="."){
-      ii <- grep("\\.",a)               #indices of "." in a; add "\\" in front of "?" and "." to prevent error
+      ii<-grep("\\.",a)               #indices of "." in a; add "\\" in front of "?" and "." to prevent error
       if (length(ii)){                  #If the "." is not in the words，it will lead to errors
-        a <- gsub("\\.","",a)           #remove "." in the words
+        a<-gsub("\\.","",a)           #remove "." in the words
         xs<-rep(0,length(ii)+length(a)) #vector to store the words and separated marks
-        iis<- ii+1:length(ii)           #where should "." go in xs?
+        iis<-ii+1:length(ii)           #where should "." go in xs?
         xs[iis]<-"."                    #insert "."
         xs[-iis]<-a                     #insert the rest units
         a<-xs                           #give value back to a
       }
     } else if (i=="?") {               #similar to "."
-      ii <- grep("\\?",a)         
-      a <- gsub("\\?","",a)       
+      ii<-grep("\\?",a)         
+      a<-gsub("\\?","",a)       
       xs<-rep(0,length(ii)+length(a))
       iis<- ii+1:length(ii)
       xs[iis]<-"?"
       xs[-iis]<-a
       a<-xs
     }else{                             #rest of the punctuation marks
-      ii <- grep(i,a)         
+      ii<-grep(i,a)         
       if (length(ii)){
-        a <- gsub(i,"",a)       
+        a<-gsub(i,"",a)       
         xs<-rep(0,length(ii)+length(a))
-        iis<- ii+1:length(ii)
+        iis<-ii+1:length(ii)
         xs[iis]<-i
         xs[-iis]<-a
         a<-xs
@@ -52,10 +52,27 @@ split_punct <- function(a){
   return(a)            #return the separated a
 }
 #5.
-a<-split_punct(a)      #separate the punctuation marks
+a <- split_punct(a)      #separate the punctuation marks
 
 #6.
+#replace the capital letters with lower case letter
+al <- tolower(a)
+#and find the vector of unique words
+b<-unique(al)
 
+#find the vector of indicies
+index<-match(al,b)
+
+#how many time each unique word occurs in the text
+times <- tabulate(index)
+
+#sort by number of times
+# ordern<-sort(times,decreasing = T)  #number of times
+orderi<-order(times,decreasing = T) #index
+
+#common words
+icom<-orderi[1:500]#前500单词在b中的位置
+com<-b[icom]#按次数排列的前500单词
 
 #7.
 
