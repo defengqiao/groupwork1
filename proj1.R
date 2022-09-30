@@ -67,7 +67,7 @@ index<-match(al,b)
 times <- tabulate(index)
 
 #sort by number of times
-# ordern<-sort(times,decreasing = T)  #number of times
+ordern<-sort(times,decreasing = T)  #number of times
 orderi<-order(times,decreasing = T) #index
 
 #common words
@@ -84,8 +84,23 @@ comf<-rep(NA,length(comi))    #final common
 comf[3:length(comi)]<-comi[1:(length(comi)-2)]
 
 tr<-cbind(comi,comn)
+
+#prepare for A
+sumr<-rowSums(tr)             #the sum of every row that have NA is NA
+sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
+sumi<-c(1:length(sumr))       #index of sum
+sumis<-sumi[sumT]             #find where is the value TURE
+tr2<-tr[sumis,]               #find all common words double which dont have NA
+
+#create A
+A <- array(0,c(length(com),length(com))) #initialize A
+for (i in 1:dim(tr2)[1]) {
+  A[tr2[i,1],tr2[i,2]]<-A[tr2[i,1],tr2[i,2]]+1
+}
+
 tr<-cbind(tr,comf)            #common words triplets
 
+#prepare for B
 sumr<-rowSums(tr)             #the sum of every row that have NA is NA
 sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
 sumi<-c(1:length(sumr))       #index of sum
@@ -97,9 +112,9 @@ T <- array(0,c(length(com),length(com),length(com))) #initialize T
 for (i in 1:dim(tr3)[1]) {
   T[tr3[i,1],tr3[i,2],tr3[i,3]]<-T[tr3[i,1],tr3[i,2],tr3[i,3]]+1
 }
-#rm(tr3)
-#我希望，你们用来构造A和S的那个矩阵，可以用和上面相似的变量tr2, tr1这样
 
+#create S
+S <- ordern[1:500]
 #8.
 
 
