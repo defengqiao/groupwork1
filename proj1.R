@@ -116,6 +116,24 @@ for (i in 1:dim(tr3)[1]) {
 #create S
 S <- ordern[1:500]
 #8.
+#a function select word
+write3<-function(w1,w2,T12){ #w1,w2 are the indices of the word,T12=T[,w1,w2]
+  
+  TT<-T12!=0            #create a vector, if T[i,w1,w2] is 0, TT[i] is FALSE
+  Tn<-c(1:length(T12))  #location
+  Tn<-Tn[TT]            #index where is not 0
+  T0<-T12[TT]           #numbers without 0
+  
+  Ts<-sample(1:sum(T0),1) #select a word
+  i=0
+  while(Ts>0){
+    s=s-T0[i+1]
+    i=i+1
+  }
+  return(Tn[i])#find the index of the word, output
+}
+
+
 
 
 #9.
