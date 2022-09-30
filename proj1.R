@@ -75,6 +75,28 @@ icom<-orderi[1:500]#前500单词在b中的位置
 com<-b[icom]#按次数排列的前500单词
 
 #7.
+comi<-match(al,com)#each element of the full text vector corresponds to the common words
+
+comn<-rep(NA,length(comi))    #next common
+comn[2:length(comi)]<-comi[1:(length(comi)-1)]
+
+comf<-rep(NA,length(comi))    #final common
+comf[3:length(comi)]<-comi[1:(length(comi)-2)]
+
+tr<-cbind(comi,comn)
+tr<-cbind(tr,comf)            #common words triplets
+
+sumr<-rowSums(tr)             #the sum of every row that have NA is NA
+sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
+sumi<-c(1:length(sumr))       #index of sum
+sumis<-sumi[sumT]             #find where is the value TURE
+tr<-tr[sumis,]                 #find all common words triplets which dont have NA
+
+#create T!!!!
+T <- array(0,c(length(com),length(com),length(com))) #initialize T
+for (i in 1:dim(tr)[1]) {
+  T[tr[i,1],tr[i,2],tr[i,3]]<-T[tr[i,1],tr[i,2],tr[i,3]]+1
+}
 
 
 #8.
