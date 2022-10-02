@@ -1,4 +1,4 @@
-#Defeng Qiao, s2419769; YiZhou Chen, s2450877;Tianai Ren,
+#Defeng Qiao, s2419769; YiZhou Chen, s2450877; Tianai Ren, s2329207
 
 
 #1.
@@ -35,13 +35,15 @@ split_punct <- function(a){
         a<-xs                           #give value back to a
       }
     } else if (i=="?") {               #similar to "."
-      ii<-grep("\\?",a)         
-      a<-gsub("\\?","",a)       
-      xs<-rep(0,length(ii)+length(a))
-      iis<- ii+1:length(ii)
-      xs[iis]<-"?"
-      xs[-iis]<-a
-      a<-xs
+      ii<-grep("\\?",a)
+      if (length(ii)){ 
+        a<-gsub("\\?","",a)       
+        xs<-rep(0,length(ii)+length(a))
+        iis<- ii+1:length(ii)
+        xs[iis]<-"?"
+        xs[-iis]<-a
+        a<-xs
+       }
     }else{                             #rest of the punctuation marks
       ii<-grep(i,a)         
       if (length(ii)){
@@ -93,9 +95,7 @@ tr<-cbind(comi,comn)
 #prepare for A
 sumr<-rowSums(tr)             #the sum of every row that have NA is NA
 sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
-sumi<-c(1:length(sumr))       #index of sum
-sumis<-sumi[sumT]             #find where is the value TURE
-tr2<-tr[sumis,]               #find all common words double which dont have NA
+tr2<-tr[sumT,]               #find all common words double which dont have NA
 
 #create A
 A <- array(0,c(length(com),length(com))) #initialize A
@@ -108,9 +108,7 @@ tr<-cbind(tr,comf)            #common words triplets
 #prepare for B
 sumr<-rowSums(tr)             #the sum of every row that have NA is NA
 sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
-sumi<-c(1:length(sumr))       #index of sum
-sumis<-sumi[sumT]             #find where is the value TURE
-tr3<-tr[sumis,]                 #find all common words triplets which dont have NA
+tr3<-tr[sumT,]                 #find all common words triplets which dont have NA
 
 #create T!!!!
 T <- array(0,c(length(com),length(com),length(com))) #initialize T
