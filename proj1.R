@@ -4,8 +4,13 @@
 #1.
 rm(list = ls())
 
-#2.
-
+#2. download the file from the internet
+dir.create("D:/Study/R_Code/groupwork1")   #create a target file
+download <- function(name){
+  url <- "https://www.gutenberg.org/ebooks/10"  #url
+  download.file(paste0(url,name), paste0("D:/Study/R_Code/groupwork1/", name), quite = TRUE)
+}
+download("pg10.txt")
 
 #3.
 setwd("D:/Study/R_Code/groupwork1")
@@ -115,6 +120,7 @@ for (i in 1:dim(tr3)[1]) {
 
 #create S
 S <- ordern[1:500]
+
 #8.
 #a function select word
 write3<-function(w1,w2,T12){ #w1,w2 are the indices of the word,T12=T[,w1,w2]
@@ -137,3 +143,5 @@ write3<-function(w1,w2,T12){ #w1,w2 are the indices of the word,T12=T[,w1,w2]
 
 
 #9.
+
+#10.
