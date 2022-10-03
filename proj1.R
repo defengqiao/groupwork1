@@ -1,10 +1,16 @@
-#Defeng Qiao, s2419769; YiZhou Chen, s2450877;Tianai Ren,
+#Defeng Qiao, s2419769; YiZhou Chen, s2450877; Tianai Ren, s2329207
 
 
 #1.
 rm(list = ls())
 
 #2.
+# dir.create("D:/Study/R_Code/groupwork1")   #create a target file
+# download <- function(name){
+#   url <- "https://www.gutenberg.org/ebooks/10"  #url
+#   download.file(paste0(url,name), paste0("D:/Study/R_Code/groupwork1/", name), quite = TRUE)
+# }
+# download("pg10.txt")
 
 
 #3.
@@ -88,10 +94,7 @@ tr<-cbind(comi,comn)
 #prepare for A
 sumr<-rowSums(tr)             #the sum of every row that have NA is NA
 sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
-sumi<-c(1:length(sumr))       #index of sum
-sumis<-sumi[sumT]             #find where is the value TURE
-tr2<-tr[sumis,]               #find all common words double which dont have NA
-
+tr2<-tr[sumT,]               #find all common words double which dont have NA
 #create A
 A <- array(0,c(length(com),length(com))) #initialize A
 for (i in 1:dim(tr2)[1]) {
@@ -100,12 +103,10 @@ for (i in 1:dim(tr2)[1]) {
 
 tr<-cbind(tr,comf)            #common words triplets
 
-#prepare for B
+#prepare for T
 sumr<-rowSums(tr)             #the sum of every row that have NA is NA
 sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
-sumi<-c(1:length(sumr))       #index of sum
-sumis<-sumi[sumT]             #find where is the value TURE
-tr3<-tr[sumis,]                 #find all common words triplets which dont have NA
+tr3<-tr[sumT,]                 #find all common words triplets which dont have NA
 
 #create T!!!!
 T <- array(0,c(length(com),length(com),length(com))) #initialize T
@@ -117,23 +118,103 @@ for (i in 1:dim(tr3)[1]) {
 S <- ordern[1:500]
 #8.
 #a function select word
-write3<-function(w1,w2,T12){ #w1,w2 are the indices of the word,T12=T[,w1,w2]
-  
-  TT<-T12!=0            #create a vector, if T[i,w1,w2] is 0, TT[i] is FALSE
-  Tn<-c(1:length(T12))  #location
-  Tn<-Tn[TT]            #index where is not 0
-  T0<-T12[TT]           #numbers without 0
-  
-  Ts<-sample(1:sum(T0),1) #select a word
-  i=0
-  while(Ts>0){
-    s=s-T0[i+1]
-    i=i+1
+te <- rep(0,50)
+w <- rep(0,50)
+
+write1 <- function(S){                           #S
+  b1 <- sample(1:length(S), 1,  prob = S/sum(S)) #randomly pick a word from b, based on the probabilities in S
+  return(b1)
+}
+
+write2 <- function(A1){                            #A[,w1]
+  c1 <- sample(1:length(A1), 1, prob = A1/sum(A1)) ##randomly pick a word based on the probabilities in A
+  return(c1)
+}
+
+write3 <- function(T12){                               #T12=T[,w1,w2]
+  d1 <- sample(1:length(T12), 1, prob = T12/sum(T12)) ##randomly pick a word based on the probabilities in T
+  return(d1)
+}
+
+#----------------------------------------------------------------
+#10.
+for (i in 1:length(a)) {                #先排除句首大写
+  if (a[i]=="."|a[i]=="!"|a[i]=="?"){
+    a[i+1]<-"0"
   }
-  return(Tn[i])#find the index of the word, output
+  
+}
+
+Ai<-vector() #find location of the words of which first letter is capital letter
+for (j in c("^A","^B","^C","^D","^E","^F","^G","^H","^I","^J","^K","^L","^M","^N","^O","^P","^Q","^R","^S","^T","^U","^V","^W","^X","^Y","^Z")) {
+  Aij<-grep(j,a)
+  if (length(Aij)){
+    
+    if (!length(Ai)){
+      Ai<-Aij
+    }else{
+      Ai[(length(Ai)+1):(length(Ai)+length(Aij))]<-Aij
+      #cat(Ai,"\n")
+    }
+  }
+}
+AL<-0
+Ai1<-vector()
+for (Aii in Ai) {    #选出那些100%首字母大写的单词
+  if(!(al[Aii]%in%a)){
+    AL<-AL+1
+    Ai1[AL]<-Aii
+  }
+}
+
+for (Aii in Ai1) {
+  if (al[Aii]%in%com){
+    comAi<-match(al[Aii],com) #此单词在common words中的位置
+    com[comAi]<-a[Aii]
+  }
+}
+
+#--------------------------------------------------------------
+#8.(continue)
+for (i in 1:50){   #补注释
+  
+  if(i>2 & sum(T[,w[i-1],w[i-2]]) > 0){
+    w[i] <- write3(T[,w[i-1],w[i-2]])
+  }else if(i>1 & sum(A[,w[i-1]]) > 0){
+    w[i] <- write2(A[,w[i-1]])
+  }else{
+    w[i] <- write1(S)
+  }
+  te[i] <- com[w[i]]
+}
+
+#首字母变大写的函数
+wr<-function(w){
+  w1<-strsplit(w,"")[[1]]
+  w1[1]<-toupper(w1[1])
+  w<-paste(w1,collapse = "")
+  return(w)
+}
+
+#第一个单词首字母大写
+if (!te[1]%in%c(",",".",";","!",":","?")){
+  te[1]<-wr(te[1])
+}
+
+#将句首的单词都变为首字母大写
+for (i in 1:49) {  
+  if (te[i]=="."|te[i]=="!"|te[i]=="?"){
+    te[i+1]<-wr(te[i+1])
+  }
 }
 
 
+for (t in te){
+  cat(t, "")
+} 
 
 
 #9.
+
+
+
