@@ -212,13 +212,12 @@ for (i in 1:49) {
   }
 }
 
-
-for (t in te){
-  cat(t, "")
-} 
+#output
+cat(te, "")
 
 
-#9.
+#9. 
+#simulate 50 word sections of text simply taken from S
 te<- sample(com, size = 50, replace = TRUE, prob = S/sum(S)) #randomly select 50 wrods(after you get a word and put it back for next time) 
 
 for (i in 1:49){   
@@ -230,4 +229,5 @@ if (!te[1]%in%c(",",".",";","!",":","?")){  #Capitalized the first word
   te[1]<-wr(te[1])
 }
 
-te  #output
+cat("------------------------------------------------")
+cat(te,"")  #output
