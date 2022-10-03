@@ -4,7 +4,7 @@
 #1.
 rm(list = ls())
 
-#2.
+#2.download the file from the internet
 # dir.create("D:/Study/R_Code/groupwork1")   #create a target file
 # download <- function(name){
 #   url <- "https://www.gutenberg.org/ebooks/10"  #url
@@ -36,13 +36,15 @@ split_punct <- function(a){
         a<-xs                           #give value back to a
       }
     } else if (i=="?") {               #similar to "."
-      ii<-grep("\\?",a)         
-      a<-gsub("\\?","",a)       
-      xs<-rep(0,length(ii)+length(a))
-      iis<- ii+1:length(ii)
-      xs[iis]<-"?"
-      xs[-iis]<-a
-      a<-xs
+      ii<-grep("\\?",a)
+      if (length(ii)){ 
+        a<-gsub("\\?","",a)       
+        xs<-rep(0,length(ii)+length(a))
+        iis<- ii+1:length(ii)
+        xs[iis]<-"?"
+        xs[-iis]<-a
+        a<-xs
+       }
     }else{                             #rest of the punctuation marks
       ii<-grep(i,a)         
       if (length(ii)){
@@ -95,6 +97,7 @@ tr<-cbind(comi,comn)
 sumr<-rowSums(tr)             #the sum of every row that have NA is NA
 sumT<-!is.na(sumr)            #turn NA to FALSE, the rest is TRUE
 tr2<-tr[sumT,]               #find all common words double which dont have NA
+
 #create A
 A <- array(0,c(length(com),length(com))) #initialize A
 for (i in 1:dim(tr2)[1]) {
@@ -116,6 +119,7 @@ for (i in 1:dim(tr3)[1]) {
 
 #create S
 S <- ordern[1:500]
+
 #8.
 #a function select word
 te <- rep(0,50)
@@ -215,6 +219,5 @@ for (t in te){
 
 
 #9.
-
 
 
