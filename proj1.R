@@ -219,15 +219,16 @@ for (t in te){
 
 
 #9.
-R<- sample(com, size = 50, replace = T, prob = S/Sum(s)) #randomly select 50 wrods(after you get a word and put it back for next time) 
+#9.
+te<- sample(com, size = 50, replace = TRUE, prob = S/sum(S)) #randomly select 50 wrods(after you get a word and put it back for next time) 
 
 for (i in 1:50){   
-#Capitalize the first word of the sentence
-for (i in 1:49) {  
-  if (te[i]=="."|te[i]=="!"|te[i]=="?"){
+  if (te[i]=="."|te[i]=="!"|te[i]=="?"){  #Capitalized the first word of every sentence
     te[i+1]<-wr(te[i+1])
   }
 }
+if (!te[1]%in%c(",",".",";","!",":","?")){  #Capitalized the first word
+  te[1]<-wr(te[1])
 }
 
-R
+te  #output
