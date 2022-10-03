@@ -79,8 +79,8 @@ ordern<-sort(times,decreasing = T)  #number of times
 orderi<-order(times,decreasing = T) #index
 
 #common words
-icom<-orderi[1:500]#前500单词在b中的位置
-com<-b[icom]#按次数排列的前500单词
+icom<-orderi[1:500]  #前500单词在b中的位置
+com<-b[icom]  #按次数排列的前500单词
 
 #7.
 comi<-match(al,com)#each element of the full text vector corresponds to the common words
@@ -164,7 +164,7 @@ for (j in c("^A","^B","^C","^D","^E","^F","^G","^H","^I","^J","^K","^L","^M","^N
 }
 AL<-0
 Ai1<-vector()
-for (Aii in Ai) {    #选出那些100%首字母大写的单词
+for (Aii in Ai) {    #find out those words in uppercase
   if(!(al[Aii]%in%a)){
     AL<-AL+1
     Ai1[AL]<-Aii
@@ -173,7 +173,7 @@ for (Aii in Ai) {    #选出那些100%首字母大写的单词
 
 for (Aii in Ai1) {
   if (al[Aii]%in%com){
-    comAi<-match(al[Aii],com) #此单词在common words中的位置
+    comAi<-match(al[Aii],com) #locate the word in common word
     com[comAi]<-a[Aii]
   }
 }
@@ -192,7 +192,7 @@ for (i in 1:50){   #补注释
   te[i] <- com[w[i]]
 }
 
-#首字母变大写的函数
+#a function for capitalization 
 wr<-function(w){
   w1<-strsplit(w,"")[[1]]
   w1[1]<-toupper(w1[1])
@@ -200,12 +200,12 @@ wr<-function(w){
   return(w)
 }
 
-#第一个单词首字母大写
+#Capitalize the first word 
 if (!te[1]%in%c(",",".",";","!",":","?")){
   te[1]<-wr(te[1])
 }
 
-#将句首的单词都变为首字母大写
+#Capitalize the first word of the sentence
 for (i in 1:49) {  
   if (te[i]=="."|te[i]=="!"|te[i]=="?"){
     te[i+1]<-wr(te[i+1])
@@ -219,5 +219,15 @@ for (t in te){
 
 
 #9.
+R<- sample(com, size = 50, replace = T, prob = S/Sum(s)) #randomly select 50 wrods(after you get a word and put it back for next time) 
 
+for (i in 1:50){   
+#Capitalize the first word of the sentence
+for (i in 1:49) {  
+  if (te[i]=="."|te[i]=="!"|te[i]=="?"){
+    te[i+1]<-wr(te[i+1])
+  }
+}
+}
 
+R
