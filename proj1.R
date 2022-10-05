@@ -1,5 +1,10 @@
-#Defeng Qiao, s2419769; YiZhou Chen, s2450877; Tianai Ren, s2329207
+#Defeng Qiao, s2419769; Tianai Ren, s2329207; YiZhou Chen, s2450877
 
+#Defeng Qiao: 1,3,4,5,6,7,10, improve and fix bugs of 8,9
+#Tianai Ren : 8, improve 4, some help in 10, add comments in detail
+#YiZhou Chen: 2,9, some help in 4, add some comments
+
+#Defeng Qiao: 50%; Tianai Ren: 30%; YiZhou Chen: 20% (YiZhou Chen got Covid-19 last weekend, so we shared part of his work)
 
 #1.
 rm(list = ls())
@@ -73,7 +78,7 @@ al <- tolower(a)
 #and find the vector of unique words
 b<-unique(al)
 
-#find the vector of indicies
+#find the vector of indexes
 index<-match(al,b)
 
 #how many time each unique word occurs in the text
@@ -238,5 +243,6 @@ if (!te[1]%in%c(",",".",";","!",":","?")){  #Capitalized the first word
   te[1]<-wr(te[1])
 }
 
-cat("------------------------------------------------")
+cat("\n------------------------------------------------\n")
 cat(te,"")  #output
+
