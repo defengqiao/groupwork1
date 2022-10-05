@@ -21,6 +21,7 @@ rm(list = ls())
 #3.
 #Read the  file into R and pre-processing of data
 setwd("D:/Study/R_Code/groupwork1")
+setwd("C:/Users/Renti/Documents/Ren Tianai/postgraduate/sem 1/SP R")
 
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
 n <- length(a)
@@ -90,7 +91,7 @@ orderi<-order(times,decreasing = T) #index
 
 #common words
 icom<-orderi[1:500]   #position of the 500 most common words in the vector of unique words
-com<-b[icom]          #Put these 500 words in order of frequency into the vector 'com'
+com<-b[icom]          #vector 'com' contains 500 most commonly occurring words
 
 #7.
 #first column is the index of common words
@@ -98,7 +99,7 @@ comi<-match(al,com)   #each element of the full text vector corresponds to the c
 
 #next column is the index for the following words
 comn<-rep(NA,length(comi))                      #Initialize next words index vector
-comn[2:length(comi)]<-comi[1:(length(comi)-1)]  #the vector shifted by one place
+comn[2:length(comi)]<-comi[1:(length(comi)-1)]  #the vector shifted by one place, remove the last word of last column
 
 #first column is the index of the final words
 comf<-rep(NA,length(comi))                      #Initialize final words index vector
