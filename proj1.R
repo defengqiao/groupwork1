@@ -16,7 +16,7 @@ rm(list = ls())
 #3.
 #Read the  file into R and pre-processing of data
 setwd("D:/Study/R_Code/groupwork1")
-setwd("C:/Users/Renti/Documents/Ren Tianai/postgraduate/sem 1/SP R")
+
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
 n <- length(a)
 a <- a[-((n-2886):n)] ## strip license
