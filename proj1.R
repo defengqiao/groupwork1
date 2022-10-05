@@ -151,7 +151,7 @@ write3 <- function(T12){                               #Input is T12=T[,w1,w2]
 
 #----------------------------------------------------------------
 #10.
-for (i in 1:length(a)) {                #先排除句首大写
+for (i in 1:length(a)) {                #Exclude the first capitalization of the sentence
   if (a[i]=="."|a[i]=="!"|a[i]=="?"){
     a[i+1]<-"0"
   }
@@ -167,7 +167,7 @@ for (j in c("^A","^B","^C","^D","^E","^F","^G","^H","^I","^J","^K","^L","^M","^N
       Ai<-Aij
     }else{
       Ai[(length(Ai)+1):(length(Ai)+length(Aij))]<-Aij
-      #cat(Ai,"\n")
+      #cat(Ai,"\n")     #use for detecting a bug
     }
   }
 }
