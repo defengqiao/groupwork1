@@ -1,10 +1,10 @@
 #Defeng Qiao, s2419769; Tianai Ren, s2329207; YiZhou Chen, s2450877
 
 #Defeng Qiao: 1,3,4,5,6,7,10, improve and fix bugs of 8,9
-#Tianai Ren : 8, improve 4, some help in 10, add comments in detail
+#Tianai Ren : 3,8,10, improve 4, improve 10, add comments in detail
 #YiZhou Chen: 2,9, some help in 4, add some comments
 
-#Defeng Qiao: 50%; Tianai Ren: 30%; YiZhou Chen: 20% (YiZhou Chen got Covid-19 last weekend, so we shared part of his work)
+#Defeng Qiao: 45%; Tianai Ren: 35%; YiZhou Chen: 20% (YiZhou Chen got Covid-19 last weekend, so we shared part of his work)
 
 #1.
 rm(list = ls())
@@ -21,7 +21,6 @@ rm(list = ls())
 #3.
 #Read the  file into R and pre-processing of data
 setwd("D:/Study/R_Code/groupwork1")
-setwd("C:/Users/Renti/Documents/Ren Tianai/postgraduate/sem 1/SP R")
 
 a <- scan("pg10.txt",what="character",skip=104) ## skip contents
 n <- length(a)
@@ -134,6 +133,7 @@ for (i in 1:dim(tr3)[1]) {
 #create S
 S <- ordern[1:500]
 
+
 #8.
 #Simulate 50 words sections from the model
 te <- rep(0,50)  
@@ -142,7 +142,7 @@ w <- rep(0,50)
 #write function is to pick word from A,S,T based on word and the probabilities
 write1 <- function(S){                           #Input is vector S
   b1 <- sample(1:length(S), 1,  prob = S/sum(S)) #randomly pick a word from b, based on the probabilities in S
-  return(b1)                                     #output is the index of words
+  return(b1)                                     #return value is the index of words
 }
 
 write2 <- function(A1){                            #Input is A[,w1]
@@ -157,43 +157,22 @@ write3 <- function(T12){                               #Input is T12=T[,w1,w2]
 
 #----------------------------------------------------------------
 #10.
-for (i in 1:length(a)) {                #Exclude the first capitalization of the sentence
-  if (a[i]=="."|a[i]=="!"|a[i]=="?"){
-    a[i+1]<-"0"
-  }
-  
+#A function to change the first letter to uppercase
+wr<-function(w){
+  w1<-strsplit(w,"")[[1]]     #split w into a vector of its individual words
+  w1[1]<-toupper(w1[1])       #change the first letter to uppercase
+  w<-paste(w1,collapse = "")  #and put words back in one string
+  return(w)                 
 }
 
-Ai<-vector() #find location of the words of which first letter is capital letter
-for (j in c("^A","^B","^C","^D","^E","^F","^G","^H","^I","^J","^K","^L","^M","^N","^O","^P","^Q","^R","^S","^T","^U","^V","^W","^X","^Y","^Z")) {
-  Aij<-grep(j,a)
-  if (length(Aij)){
-    
-    if (!length(Ai)){
-      Ai<-Aij
-    }else{
-      Ai[(length(Ai)+1):(length(Ai)+length(Aij))]<-Aij
-      #cat(Ai,"\n")     #use for detecting a bug
-    }
-  }
-}
-AL<-0
-Ai1<-vector()
-for (Aii in Ai) {    #find out those words in uppercase
-  if(!(al[Aii]%in%a)){
-    AL<-AL+1
-    Ai1[AL]<-Aii
-  }
+ci<-1:length(com)        #index of vector 'com'
+comC<-ci[!(com %in% a)]  #find the index of words in common words vector which first letter must be captalized
+
+for (i in comC) {        
+  com[i]<-wr(com[i])     #Change words that must be captalized in common words vector
 }
 
-for (Aii in Ai1) {
-  if (al[Aii]%in%com){
-    comAi<-match(al[Aii],com) #locate the word in common word
-    com[comAi]<-a[Aii]
-  }
-}
-
-#--------------------------------------------------------------
+#----------------------------------------------------------------
 #8.(continue)
 for (i in 1:50){  #Loop for 50 words
   
@@ -207,22 +186,13 @@ for (i in 1:50){  #Loop for 50 words
   te[i] <- com[w[i]]                    # find the words in common vector from the index above
 }
 
-#a function for capitalization 
-wr<-function(w){
-  w1<-strsplit(w,"")[[1]]
-  w1[1]<-toupper(w1[1])
-  w<-paste(w1,collapse = "")
-  return(w)
-}
 
-#Capitalize the first word 
-if (!te[1]%in%c(",",".",";","!",":","?")){
+if (!te[1]%in%c(",",".",";","!",":","?")){ #Capitalize the first word of the sections
   te[1]<-wr(te[1])
 }
 
-#Capitalize the first word of the sentence
 for (i in 1:49) {  
-  if (te[i]=="."|te[i]=="!"|te[i]=="?"){
+  if (te[i]=="."|te[i]=="!"|te[i]=="?"){  #Capitalize the first word of a whole sentence 
     te[i+1]<-wr(te[i+1])
   }
 }
