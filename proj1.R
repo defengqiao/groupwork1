@@ -28,7 +28,6 @@ a <- a[-((n-2886):n)] ## strip license
 a <- a[-grep("[0123456789]:[0123456789]",a)] ## strip out verse numbers
 
 #4.
-#
 #a<-c("aa,","bb.","cc?","dd!") #used for test
 #split_punct is used to search for each word that contains a punctuation mark, separating it from the symbol and placing it appropriately.
 split_punct <- function(a){ #Input is text a
@@ -68,6 +67,7 @@ split_punct <- function(a){ #Input is text a
   }
   return(a)              # Output is a being separated
 }
+
 #5.
 a <- split_punct(a)      #a contains the separate word and punctuation mark
 
@@ -132,7 +132,6 @@ for (i in 1:dim(tr3)[1]) {
 
 #create S
 S <- ordern[1:500]
-
 
 #8.1
 #Simulate 50 words sections from the model
@@ -199,9 +198,17 @@ for (i in 1:49) {
   }
 }
 #--------------------------------------------------------------
+#try to make no space before the punctuation mark
+tep<-te[1]
+for (i in 2:50) {
+  if(te[i]=="."|te[i]==","|te[i]=="."|te[i]==";"|te[i]=="!"|te[i]==":"|te[i]=="?"){
+    tep <- paste(tep,te[i],sep = "")
+  }else{
+    tep <- paste(tep,te[i],sep = " ")
+  }
+}
 #output
-cat(te, "")
-
+cat(tep)
 
 #9. 
 #simulate 50 word sections of text simply taken from S
@@ -217,6 +224,16 @@ if (!te[1]%in%c(",",".",";","!",":","?")){  #Capitalized the first word
 }
 
 cat("\n------------------------------------------------\n")
-cat(te,"")  #output
+#try to make no space before the punctuation mark
+tep<-te[1]
+for (i in 2:50) {
+  if(te[i]=="."|te[i]==","|te[i]=="."|te[i]==";"|te[i]=="!"|te[i]==":"|te[i]=="?"){
+    tep <- paste(tep,te[i],sep = "")
+  }else{
+    tep <- paste(tep,te[i],sep = " ")
+  }
+}
+#output
+cat(tep)
 
 #step 10 is combined with step 8, #10.1 and #10.2 can be found after #8.1
