@@ -1,6 +1,6 @@
 #Defeng Qiao, s2419769; Tianai Ren, s2329207; YiZhou Chen, s2450877
 
-#Defeng Qiao: 1,3,4,5,6,7,10, improve and fix bugs of 8,9
+#Defeng Qiao: 1,3,4,5,6,7,10, improve and fix bugs of 8,9,10
 #Tianai Ren : 3,8,10, improve 4, improve 10, add comments in detail
 #YiZhou Chen: 2,9, some help in 4, add some comments
 
@@ -134,7 +134,7 @@ for (i in 1:dim(tr3)[1]) {
 S <- ordern[1:500]
 
 
-#8.
+#8.1
 #Simulate 50 words sections from the model
 te <- rep(0,50)  
 w <- rep(0,50)
@@ -156,7 +156,8 @@ write3 <- function(T12){                               #Input is T12=T[,w1,w2]
 }
 
 #----------------------------------------------------------------
-#10.
+#10.1 (part1 of step10, capitalize the words that are 100%  capitalized  in Bible
+
 #A function to change the first letter to uppercase
 wr<-function(w){
   w1<-strsplit(w,"")[[1]]     #split w into a vector of its individual words
@@ -169,11 +170,11 @@ ci<-1:length(com)        #index of vector 'com'
 comC<-ci[!(com %in% a)]  #find the index of words in common words vector which first letter must be captalized
 
 for (i in comC) {        
-  com[i]<-wr(com[i])     #Change words that must be captalized in common words vector
+  com[i]<-wr(com[i])     #Change words that must be capitalized in common words vector
 }
 
 #----------------------------------------------------------------
-#8.(continue)
+#8.2(continue)
 for (i in 1:50){  #Loop for 50 words
   
   if(i>2 & sum(T[,w[i-1],w[i-2]]) > 0){ # whether the pair of words will followed by a word, if not take write2 function
@@ -185,7 +186,8 @@ for (i in 1:50){  #Loop for 50 words
   }
   te[i] <- com[w[i]]                    # find the words in common vector from the index above
 }
-
+#----------------------------------------------------------------
+#10.2(continue) #part2 of step10, Capitalize the first word of a whole sentence
 
 if (!te[1]%in%c(",",".",";","!",":","?")){ #Capitalize the first word of the sections
   te[1]<-wr(te[1])
@@ -196,7 +198,7 @@ for (i in 1:49) {
     te[i+1]<-wr(te[i+1])
   }
 }
-
+#--------------------------------------------------------------
 #output
 cat(te, "")
 
@@ -217,3 +219,4 @@ if (!te[1]%in%c(",",".",";","!",":","?")){  #Capitalized the first word
 cat("\n------------------------------------------------\n")
 cat(te,"")  #output
 
+#step 10 is combined with step 8, #10.1 and #10.2 can be found after #8.1
